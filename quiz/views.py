@@ -11,7 +11,7 @@ from .models import Quiz, Category, Progress, Sitting, Question
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-
+import razorpay
 
 class QuizMarkerMixin(object):
     @method_decorator(login_required)
@@ -238,7 +238,17 @@ class QuizTake(FormView):
 
 
 def index(request):
-    return render(request, 'index.html', {})
+    user=request.user
+    context = {
+                'name':user.first_name,
+                'description' : "fullsubscription",
+                'username':user.first_name,
+                'email':user.username,
+                'tel':"1111111111",
+                'id':"15",
+                'amount':50*100,
+                } 
+    return render(request, 'index.html', context)
 
 
 def login_user(request):
@@ -264,3 +274,31 @@ def logout_user(request):
     print('logout function working')
     return redirect('login')
 
+
+
+
+def charge(request):
+    u=request.user
+    #c=cart.objects.get(user=u)
+    #amount=c.price
+    if request.method == 'POST':
+        print('Data: ', request.POST)
+        # razorpay_client = razorpay.Client(auth=("rzp_live_jclRvcmRVcb07Y", "6L1sxrj4eaJmTyjOXhxRuDFf"))
+        razorpay_client = razorpay.Client(auth=("rzp_live_jclRvcmRVcb07Y", "6L1sxrj4eaJmTyjOXhxRuDFf"))
+        #razorpay_client = razorpay.Client(auth=("rzp_test_zzT9GjlyHh2fSm", "GOjXCTl9c9JmwIQB7uNZbRqO"))
+
+        amount = 100
+        payment_id = request.POST['razorpay_payment_id']
+        a=razorpay_client.payment.capture(payment_id, amount)
+        print(a)
+        b=razorpay_client.payment.fetch(payment_id)
+        print(b['status'])
+        if str(b["status"]) == "captured":
+            u=request.user
+            return redirect('QuizListView')
+        else:
+            return render(request,'index.html')
+    else:
+        user=request.user
+ 
+        return render(request, 'card1.html') 

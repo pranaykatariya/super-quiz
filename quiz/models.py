@@ -525,7 +525,7 @@ class Question(models.Model):
                                  blank=True,
                                  null=True, on_delete=models.CASCADE)
 
-    figure = models.ImageField(upload_to='uploads/%Y/%m/%d',
+    figure = models.FileField(upload_to='uploads/%Y/%m/%d',
                                blank=True,
                                null=True,
                                verbose_name=_("Figure"))
@@ -639,4 +639,13 @@ def csv_upload_post_save(sender, instance, created, *args, **kwargs):
 
 post_save.connect(csv_upload_post_save, sender=CSVUpload)
 
+class payment(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
 
+
+class signup(models.Model):
+    name=models.CharField(max_length=100)
+    cat=models.CharField(max_length=20)
+    moblieno=models.CharField(max_length=12)
+
+    

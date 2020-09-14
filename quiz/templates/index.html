@@ -6,6 +6,26 @@
     <p>Username: {{user.username}}</p>
     <p>Name: {{user.first_name}} {{user.last_name}}</p>
     <p>Email: {{user.email}}</p>
+    <p>for full subcription pay 50 rs</p>
+   
+<form action="charge" method="POST">
+    {% csrf_token %}
+    <script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        data-key="rzp_live_jclRvcmRVcb07Y"
+        data-amount={{amount}}
+        data-name={{name}}
+        data-description={{description}}
+        data-image="vk.jpg"
+        data-netbanking="true"
+        data-prefill.name={{username}}
+        data-prefill.email={{email}}
+        data-prefill.contact={{tel}}
+        data-notes.shopping_order_id={{id}}>
+    </script>
+    <input type="hidden" name="shopping_order_id" value=3>
+</form>
+
 {% endif %}
     
 {% endblock  %}

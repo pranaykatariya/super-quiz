@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form action="charge" method="POST">
+    {% csrf_token %}
+    <script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        data-key="rzp_live_jclRvcmRVcb07Y"
+        data-amount=100
+        data-name="bbb"
+        data-description="vvvv"
+        data-image="vk.jpg"
+        data-netbanking="true"
+        data-prefill.name="ajay"
+        data-prefill.email="ajay@gmail.ocm"
+        data-prefill.contact="8668441622"
+        data-notes.shopping_order_id=3>
+    </script>
+    <input type="hidden" name="shopping_order_id" value=3>
+</form>
+{% endblock  %}
