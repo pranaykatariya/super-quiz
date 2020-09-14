@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block metatag %}
+  <meta name="description" content="Signup: Slambox">
+  <meta name="keywords" content="signup slambox, Create account">
+{% endblock %}
+
+{% block title %}
+  Sign Up : Slambox
+{% endblock %}
+
+{% block navbar%}
+    {% include "pages/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+	<div class="row justify-content-center mt-5 ">
+		<div class="col-12 col-md-8 col-lg-6 pb-5">
+                    <!--Form with header-->
+                    <form action="signup" onsubmit="return checkPassword(this);" method="post">  
+                        {% csrf_token %}
+                        <div style="border-color: gray;" class="card rounded-0">
+                            <div class="card-header p-0">
+                                <div style="background-color: gray;" class="text-white text-center py-2">
+                                    <h3><i class="fa fa-sign-up"></i> SignUp</h3>
+                                    
+                                </div>
+                            </div>
+                            <div class="card-body p-3">
+                                <!--Body-->
+                                <div class="form-group">
+                                    
+                                    
+                                    <div class="input-group mb-2">
+                                            
+                                        <div class="input-group-prepend">
+                                            
+                                            <div class="input-group-text"><i style="color: gray;" class="fa fa-user"></i>
+                                            </div>
+                                        </div>                                        
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
+                                    </div>
+                                </div>
+                                <!-- <div class="form-group">
+                                    <div class="input-group mb-2"> -->
+                                        <!-- <div class="input-group-prepend">
+                                            <div class="input-group-text"><i style="color: gray;" class="fa fa-user-circle"></i>
+                                            
+                                            </div>
+                                            
+                                        </div> -->
+                                        <!-- <input type="text" class="form-control" id="branch" name="branch" placeholder="Branch" required> -->
+                                    
+                                       
+                                        <div class="form-group">
+                                            
+                                            <select class="form-control" id="branch" name="branch" required>
+                                                <option value="Mechanical">Mechanical</option>
+                                                <option value="Computer">Computer</option>
+                                                <option value="Civil">Civil</option>
+                                                <option value="E&TC">E&TC</option>
+                                                <option value="IT">IT</option>
+                                            </select>
+                                        </div>
+                                       
+                                        
+                                    <!-- </div>
+                                </div> -->
+                                <div class="form-group">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i style="color: gray;" class="fa fa-envelope"></i>
+                                            
+                                            </div>
+                                        </div>
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="E-mail" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i style="color: gray;" class="fa fa-key"></i>
+                                                
+                                            </div>
+                                        </div>
+                                        <input type="password" class="form-control" id="password1" name="password1" placeholder="Password" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i style="color: gray;" class="fa fa-key"></i>
+                                                
+                                            </div>
+                                        </div>
+                                        <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm Password" required>
+                                    </div>
+                                </div>                            
+                                <div class="text-center">
+                                    <input style="background-color: gray;" type="submit" value="Signup" class="btn btn-block rounded-0 py-2">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    
+
+                    
+                    <!--Form with header-->
+                    {% if messages %}
+                    <div class="p-3 mb-2 bg-success text-white">
+                        {% for message in messages%}
+                        
+                            {{message}}
+                        
+                        {% endfor %}
+                    </div>  
+                    {% endif %}
+                    
+                    <br>
+                    <div id="signupmessage" class=""></div>  
+                    <br>
+                    <div class="col-6 offset-3 my-3">
+                        <div class="text-center">
+                            <a style="border-radius: 10px;" class="btn btn-block" href="/login">Already user? Login</a>
+                        </div>
+                    </div>
+
+                   
+            </div>
+    </div>
+</div>
+<br><br><br>
+
+
+
+<script>
+
+
+    function countUpperCaseChars(str) {
+        
+        console.log((str.match(/[A-Z]/g) || []).length);
+        return (str.match(/[A-Z]/g) || []).length;
+
+    }
+
+
+    function checkPassword(form) { 
+               var password1 = form.password1.value; 
+               var password2 = form.password2.value;
+
+               var user = form.username.value;
+
+               var message = document.getElementById("signupmessage");
+
+
+                
+                
+                if(this.countUpperCaseChars(user) > 0)
+                {   
+                    message.innerHTML = "Username should contain only lower case letters"; 
+                    message.className += " p-3 mb-2 bg-danger text-white";
+                    return false;
+                }else if(user.includes(' '))
+                {
+                    message.innerHTML = "Username is not valid, Remove whitespace."; 
+                    message.className += " p-3 mb-2 bg-danger text-white";
+                    return false;
+                }else if(user.length >12 || user.length < 2)
+                {
+                    message.innerHTML = "Username length should be in 2 to 12 characters"; 
+                    message.className += " p-3 mb-2 bg-danger text-white";
+                    return false;
+                } else if (password1.length < 6) {
+                    
+                    message.innerHTML = "Password legnth should be more than 5"; 
+                    message.className += " p-3 mb-2 bg-danger text-white";
+                    return false;
+                } else if (password1 != password2) {
+                   message.innerHTML = "Password and confirm password does not match"; 
+                   message.className += " p-3 mb-2 bg-danger text-white";
+                   return false;
+               } else {
+                   return true;
+               }
+    }
+
+           
+</script>
+{% endblock %}

@@ -276,6 +276,9 @@ def logout_user(request):
 
 
 
+def signup_user(request):
+    return render(request, 'signup.html')
+
 
 def charge(request):
     u=request.user
