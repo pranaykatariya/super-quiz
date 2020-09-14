@@ -243,7 +243,7 @@ def index(request):
                 'name':user.first_name,
                 'description' : "fullsubscription",
                 'username':user.first_name,
-                'email':user.username,
+                'email':user.email,
                 'tel':"1111111111",
                 'id':"15",
                 'amount':50*100,
